@@ -167,17 +167,38 @@ defmodule YaappuAnalyzer do
     end
   end
 
-  def identify_line_type(l) do
-    case Enum.count(String.split(l, " ")) do
-      1 -> "தனிச்சொல்"
-      2 -> "குறளடி"
-      3 -> "சிந்தடி"
-      4 -> "அளவடி"
-      5 -> "நெடிலடி"
-      6 -> "அறுசீர் கழிநெடிலடி"
-      7 -> "எழுசீர் கழிநெடிலடி"
-      8 -> "எண்சீர் கழிநெடிலடி"
-      _ -> "கழிநெடிலடி"
+  def identify_thalai(s) do
+    words =
+      String.replace(s, "\n", " ")
+      |> String.split(" ")
+
+    asai_pairs =
+      for word <- words do
+        apply_ai_au_kaarakkurukkam(word)
+        |> Enum.map(&maathirai_encoding/1)
+        |> Enum.join()
+        |> asai_encoding
+      end
+      |> Enum.chunk_every(2, 1)
+
+    for asai_pair <- Enum.filter(asai_pairs, fn y -> Enum.count(y) > 1 end) do
+      thalai_encoding(Enum.at(asai_pair, 0), Enum.at(asai_pair, 1))
+    end
+  end
+
+  def identify_line_type(s) do
+    for l <- String.split(s, "\n") do
+      case Enum.count(String.split(l, " ")) do
+        1 -> "தனிச்சொல்"
+        2 -> "குறளடி"
+        3 -> "சிந்தடி"
+        4 -> "அளவடி"
+        5 -> "நெடிலடி"
+        6 -> "அறுசீர் கழிநெடிலடி"
+        7 -> "எழுசீர் கழிநெடிலடி"
+        8 -> "எண்சீர் கழிநெடிலடி"
+        _ -> "கழிநெடிலடி"
+      end
     end
   end
 end
