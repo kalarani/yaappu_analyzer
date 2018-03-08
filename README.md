@@ -29,4 +29,10 @@ iex(3)> YaappuAnalyzer.identify_thalai pa
  
 iex(4)> YaappuAnalyzer.identify_line_type pa
 ["அளவடி", "அளவடி", "சிந்தடி"]
+
+iex(5)> m = "யாமாமாநீ யாமாமா யாழீகாமா காணாகா
+காணாகாமா காழீயா மாமாயாநீ மாமாயா"
+
+iex(6)> YaappuAnalyzer.is_maalai_maatru m
+true
 ```

@@ -201,4 +201,12 @@ defmodule YaappuAnalyzer do
       end
     end
   end
+
+  def is_maalai_maatru(s) do
+    m =
+      String.replace(s, "\n", "")
+      |> String.replace(" ", "")
+
+    m == String.reverse(m)
+  end
 end
